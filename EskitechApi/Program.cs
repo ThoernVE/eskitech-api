@@ -1,6 +1,7 @@
 using EskitechApi.Services.ExcelServices;
 using EskitechApi.Services.ProductServices;
 using EskitechApi.Endpoints;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,9 +11,24 @@ builder.Services.AddOpenApi();
 builder.Services.AddScoped<IExcelService, ExcelService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
+builder.Services.AddDbContext<EskitechApi.Data.EskitechDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
 var app = builder.Build();
+
+var dbPath = Path.Combine(AppContext.BaseDirectory, "Data");
+if (!Directory.Exists(dbPath))
+{
+    Directory.CreateDirectory(dbPath);
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<EskitechApi.Data.EskitechDbContext>();
+    dbContext.Database.EnsureCreated();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -29,7 +45,7 @@ var summaries = new[]
 
 app.MapGet("/weatherforecast", () =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
+    var forecast = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),

@@ -2,16 +2,19 @@ using EskitechApi.Models;
 using EskitechApi.Services.ExcelServices;
 using System.IO;
 using EskitechApi.DTOs;
+using EskitechApi.Data;
 
 namespace EskitechApi.Services.ProductServices
 {
     public class ProductService : IProductService
     {
         private readonly IExcelService _excelService;
+        private readonly EskitechDbContext _db;
 
-        public ProductService(IExcelService excelService)
+        public ProductService(IExcelService excelService, EskitechDbContext db)
         {
             _excelService = excelService;
+            _db = db;
         }
 
         //From Excel
@@ -55,7 +58,7 @@ namespace EskitechApi.Services.ProductServices
             }
             return dtoList;
         }
-  
+
         public int GetProductCountExcel()
         {
             var products = _excelService.GetProductsFromExcel();
@@ -63,5 +66,50 @@ namespace EskitechApi.Services.ProductServices
         }
 
         //From DB
+        public List<Product> GetFullProductsDb()
+        {
+            return _db.Products.ToList();
+        }
+
+        public List<string> GetProductNamesDb()
+        {
+            var products = _db.Products.ToList();
+            return products.Select(p => p.Name).ToList();
+        }
+
+        public List<ProductPriceDTO> GetProductWithPricesDb()
+        {
+            var products = _db.Products.ToList();
+            var dtoList = new List<ProductPriceDTO>();
+            foreach (var product in products)
+            {
+                dtoList.Add(new ProductPriceDTO
+                {
+                    Name = product.Name,
+                    Price = product.Price
+                });
+            }
+            return dtoList;
+        }
+
+        public List<ProductStockDTO> GetProductWithStockDb()
+        {
+            var products = _db.Products.ToList();
+            var dtoList = new List<ProductStockDTO>();
+            foreach (var product in products)
+            {
+                dtoList.Add(new ProductStockDTO
+                {
+                    Name = product.Name,
+                    Stock = product.Stock
+                });
+            }
+            return dtoList;
+        }
+
+        public int GetProductCountDb()
+        {
+            return _db.Products.ToList().Count();
+        }
     }
 }

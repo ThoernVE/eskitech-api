@@ -6,7 +6,7 @@ namespace EskitechApi.Endpoints
     {
         public static void MapProductEndpoints(this WebApplication app)
         {
-            app.MapGet("/products", (IProductService productService) => 
+            app.MapGet("/products", (IProductService productService) =>
             {
                 return Results.Ok(productService.GetFullProductsExcel());
             });
