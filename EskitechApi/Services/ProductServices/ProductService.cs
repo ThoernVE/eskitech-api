@@ -111,5 +111,18 @@ namespace EskitechApi.Services.ProductServices
         {
             return _db.Products.ToList().Count();
         }
+
+        public List<Product> GetProductsPaginated(int page, int pageSize)
+        {
+            if (page <= 0)
+                throw new ArgumentOutOfRangeException(nameof(page), "Page number must be greater than 0");
+
+            if (pageSize <= 0)
+                throw new ArgumentOutOfRangeException(nameof(pageSize), "Pagesize must be greater than 0");
+
+            var products = _db.Products.ToList();
+
+            return products.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+        }
     }
 }
