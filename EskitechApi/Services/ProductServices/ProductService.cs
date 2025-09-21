@@ -68,20 +68,20 @@ namespace EskitechApi.Services.ProductServices
         }
 
         //From DB
-        public List<Product> GetFullProductsDb()
+        public async Task<List<Product>> GetFullProductsDb()
         {
-            return _db.Products.ToList();
+            return await _db.Products.ToListAsync();
         }
 
-        public List<string> GetProductNamesDb()
+        public async Task<List<string>> GetProductNamesDb()
         {
-            var products = _db.Products.ToList();
+            var products = await _db.Products.ToListAsync();
             return products.Select(p => p.Name).ToList();
         }
 
-        public List<ProductPriceDTO> GetProductWithPricesDb()
+        public async Task<List<ProductPriceDTO>> GetProductWithPricesDb()
         {
-            var products = _db.Products.ToList();
+            var products = await _db.Products.ToListAsync();
             var dtoList = new List<ProductPriceDTO>();
             foreach (var product in products)
             {
@@ -94,9 +94,9 @@ namespace EskitechApi.Services.ProductServices
             return dtoList;
         }
 
-        public List<ProductStockDTO> GetProductWithStockDb()
+        public async Task<List<ProductStockDTO>> GetProductWithStockDb()
         {
-            var products = _db.Products.ToList();
+            var products = await _db.Products.ToListAsync();
             var dtoList = new List<ProductStockDTO>();
             foreach (var product in products)
             {
@@ -113,10 +113,7 @@ namespace EskitechApi.Services.ProductServices
         {
             var products = await _db.Products.ToListAsync();
             var count = products.Count();
-            return new
-            {
-                Count = count
-        };
+            return count;
         }
 
         public async Task<PagedResult<Product>> GetProductsPaginated(int page, int pageSize)

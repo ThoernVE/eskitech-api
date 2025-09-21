@@ -179,12 +179,12 @@ namespace EskitechApi.Endpoints
             .WithSummary("Fetch products from the database with pagination")
             .WithDescription("Retrieves a subset of products from the database using paging parameters. Provide a `page` number (starting at 1) and a `pageSize` (greater than 0). If page or pageSize are invalid, a 400 Bad Request is returned. If the requested page exceeds the number of products available, an empty list is returned. Returns 500 if something unexpected goes wrong.");
 
-            app.MapGet("/products/db/names", (IProductService productService, ILogger<Program> logger) =>
+            app.MapGet("/products/db/names", async (IProductService productService, ILogger<Program> logger) =>
             {
                 try
                 {
                     logger.LogInformation("Fetching productnames from database");
-                    return Results.Ok(productService.GetProductNamesDb());
+                    return Results.Ok(await productService.GetProductNamesDb());
                 }
                 catch (Exception ex)
                 {
@@ -196,12 +196,12 @@ namespace EskitechApi.Endpoints
             .WithSummary("Fetch all productnames from the database")
             .WithDescription("Retrieves a full list of productnames from the database. Retrieves empty list if no products are found. Returns 500 if something unexpected went wrong");
 
-            app.MapGet("/products/db/prices", (IProductService productService, ILogger<Program> logger) =>
+            app.MapGet("/products/db/prices", async (IProductService productService, ILogger<Program> logger) =>
             {
                 try
                 {
                     logger.LogInformation("Fetching productnames and prices from database");
-                    return Results.Ok(productService.GetProductWithPricesDb());
+                    return Results.Ok(await productService.GetProductWithPricesDb());
                 }
                 catch (Exception ex)
                 {
@@ -213,12 +213,12 @@ namespace EskitechApi.Endpoints
             .WithSummary("Fetch all productnames and prices from the database")
             .WithDescription("Retrieves a full list of productnames and prices from the database. Retrieves empty list if no products are found. Returns 500 if something unexpected went wrong");
 
-            app.MapGet("/products/db/stock", (IProductService productService, ILogger<Program> logger) =>
+            app.MapGet("/products/db/stock", async (IProductService productService, ILogger<Program> logger) =>
             {
                 try
                 {
                     logger.LogInformation("Fetching productnames and stock from database");
-                    return Results.Ok(productService.GetProductWithStockDb());
+                    return Results.Ok(await productService.GetProductWithStockDb());
                 }
                 catch (Exception ex)
                 {
@@ -230,12 +230,12 @@ namespace EskitechApi.Endpoints
             .WithSummary("Fetch all productnames and stock from the database")
             .WithDescription("Retrieves a full list of productnames and stock from the database. Retrieves empty list if no products are found. Returns 500 if something unexpected went wrong");
 
-            app.MapGet("/products/db/count", (IProductService productService, ILogger<Program> logger) =>
+            app.MapGet("/products/db/count", async(IProductService productService, ILogger<Program> logger) =>
             {
                 try
                 {
                     logger.LogInformation("Fetching productcount from database");
-                    return Results.Ok(productService.GetProductCountDb());
+                    return Results.Ok(await productService.GetProductCountDb());
                 }
                 catch (Exception ex)
                 {
