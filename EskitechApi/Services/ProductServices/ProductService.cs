@@ -3,6 +3,8 @@ using EskitechApi.Services.ExcelServices;
 using System.IO;
 using EskitechApi.DTOs;
 using EskitechApi.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace EskitechApi.Services.ProductServices
 {
@@ -107,12 +109,17 @@ namespace EskitechApi.Services.ProductServices
             return dtoList;
         }
 
-        public int GetProductCountDb()
+        public async Task<int> GetProductCountDb()
         {
-            return _db.Products.ToList().Count();
+            var products = await _db.Products.ToListAsync();
+            var count = products.Count();
+            return new
+            {
+                Count = count
+        };
         }
 
-        public List<Product> GetProductsPaginated(int page, int pageSize)
+        public async Task<PagedResult<Product>> GetProductsPaginated(int page, int pageSize)
         {
             if (page <= 0)
                 throw new ArgumentOutOfRangeException(nameof(page), "Page number must be greater than 0");
@@ -120,9 +127,24 @@ namespace EskitechApi.Services.ProductServices
             if (pageSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(pageSize), "Pagesize must be greater than 0");
 
-            var products = _db.Products.ToList();
+            var products = await _db.Products.ToListAsync();
 
-            return products.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            var totalCount = products.Count();
+            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            var data = products.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            var pagedData = new PagedResult<Product>
+            {
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                Data = data
+            };
+
+            return pagedData;
         }
     }
 }

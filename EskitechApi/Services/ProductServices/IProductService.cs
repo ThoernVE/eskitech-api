@@ -13,16 +13,16 @@ namespace EskitechApi.Services.ProductServices
 
         int GetProductCountExcel();
 
-        List<Product> GetFullProductsDb();
+        Task<List<Product>> GetFullProductsDb();
 
-        List<string> GetProductNamesDb();
+        Task<List<string>> GetProductNamesDb();
 
-        List<ProductPriceDTO> GetProductWithPricesDb();
+        Task<List<ProductPriceDTO>>GetProductWithPricesDb();
 
-        List<ProductStockDTO> GetProductWithStockDb();
+        Task<List<ProductStockDTO>> GetProductWithStockDb();
 
-        int GetProductCountDb();
+        Task<int> GetProductCountDb();
 
-        List<Product> GetProductsPaginated(int page, int pageSize);
+        Task<PagedResult<Product>> GetProductsPaginated(int page, int pageSize);
     }
 }

@@ -141,12 +141,12 @@ namespace EskitechApi.Endpoints
             .WithDescription("Uploads a Excel-file to a SQL database. Does not upload products with the same name. Returns 400 if file cannot be uploaded");
 
             //DB endpoints
-            app.MapGet("/products/db", (IProductService productService, ILogger<Program> logger) =>
+            app.MapGet("/products/db", async (IProductService productService, ILogger<Program> logger) =>
             {
                 try
                 {
                     logger.LogInformation("Fetching products from database");
-                    return Results.Ok(productService.GetFullProductsDb());
+                    return Results.Ok(await productService.GetFullProductsDb());
                 }
                 catch (Exception ex)
                 {
@@ -158,12 +158,12 @@ namespace EskitechApi.Endpoints
             .WithSummary("Fetch all products from the database")
             .WithDescription("Retrieves a full list of products from the database. Retrieves empty list if no products are found. Returns 500 if something unexpected went wrong");
 
-            app.MapGet("/products/db/paginated", (IProductService productService, ILogger<Program> logger, int page = 1, int pageSize = 10) =>
+            app.MapGet("/products/db/paginated", async (IProductService productService, ILogger<Program> logger, int page = 1, int pageSize = 10) =>
             {
                 try
                 {
                     logger.LogInformation("Fetching {pageSize} products from page {page} from database", pageSize, page);
-                    return Results.Ok(productService.GetProductsPaginated(page, pageSize));
+                    return Results.Ok(await productService.GetProductsPaginated(page, pageSize));
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
