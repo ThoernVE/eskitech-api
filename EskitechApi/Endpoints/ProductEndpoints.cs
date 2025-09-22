@@ -1,6 +1,7 @@
 using EskitechApi.Services.ExcelServices;
 using EskitechApi.Services.ProductServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 namespace EskitechApi.Endpoints
 {
@@ -158,12 +159,31 @@ namespace EskitechApi.Endpoints
             .WithSummary("Fetch all products from the database")
             .WithDescription("Retrieves a full list of products from the database. Retrieves empty list if no products are found. Returns 500 if something unexpected went wrong");
 
-            app.MapGet("/products/db/paginated", async (IProductService productService, ILogger<Program> logger, int page = 1, int pageSize = 10) =>
+            app.MapGet("/products/db/paginated", async (IProductService productService, ILogger<Program> logger, LinkGenerator linker, HttpContext http, int page = 1, int pageSize = 10) =>
             {
                 try
                 {
                     logger.LogInformation("Fetching {pageSize} products from page {page} from database", pageSize, page);
-                    return Results.Ok(await productService.GetProductsPaginated(page, pageSize));
+                    var pagedResult = await productService.GetProductsPaginated(page, pageSize);
+
+                    var response = new PaginationResponse<Product>
+                    {
+                        Page = pagedResult.Page,
+                        PageSize = pagedResult.PageSize,
+                        TotalCount = pagedResult.TotalCount,
+                        TotalPages = pagedResult.TotalPages,
+                        FirstPage = linker.GetUriByName(http, "GetPaginatedProductsFromDatabase", new { page = 1, pageSize }),
+                        LastPage = linker.GetUriByName(http, "GetPaginatedProductsFromDatabase", new { page = pagedResult.TotalPages, pageSize }),
+                        NextPage = pagedResult.Page < pagedResult.TotalPages
+                        ? linker.GetUriByName(http, "GetPaginatedProductsFromDatabase", new { page = pagedResult.Page + 1, pageSize })
+                        : null,
+                        PreviousPage = pagedResult.Page > 1
+                        ? linker.GetUriByName(http, "GetPaginatedProductsFromDatabase", new { page = pagedResult.Page - 1, pageSize })
+                        : null,
+                        Data = pagedResult.Data
+
+                    };
+                    return Results.Ok(response);
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
