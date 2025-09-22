@@ -1,0 +1,6 @@
+@EskitechApiV2_HostAddress = http://localhost:5180
+
+GET {{EskitechApiV2_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

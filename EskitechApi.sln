@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EskitechApi", "EskitechApi\EskitechApi.csproj", "{F36A78F2-372F-418A-A778-69CA51C116BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EskitechApiV2", "EskitechApiV2\EskitechApiV2.csproj", "{7145D07C-83CE-41EB-8C82-4AE37B83B68D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,18 @@ Global
 		{F36A78F2-372F-418A-A778-69CA51C116BB}.Release|x64.Build.0 = Release|Any CPU
 		{F36A78F2-372F-418A-A778-69CA51C116BB}.Release|x86.ActiveCfg = Release|Any CPU
 		{F36A78F2-372F-418A-A778-69CA51C116BB}.Release|x86.Build.0 = Release|Any CPU
+		{7145D07C-83CE-41EB-8C82-4AE37B83B68D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7145D07C-83CE-41EB-8C82-4AE37B83B68D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7145D07C-83CE-41EB-8C82-4AE37B83B68D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7145D07C-83CE-41EB-8C82-4AE37B83B68D}.Debug|x64.Build.0 = Debug|Any CPU
+		{7145D07C-83CE-41EB-8C82-4AE37B83B68D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7145D07C-83CE-41EB-8C82-4AE37B83B68D}.Debug|x86.Build.0 = Debug|Any CPU
+		{7145D07C-83CE-41EB-8C82-4AE37B83B68D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7145D07C-83CE-41EB-8C82-4AE37B83B68D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7145D07C-83CE-41EB-8C82-4AE37B83B68D}.Release|x64.ActiveCfg = Release|Any CPU
+		{7145D07C-83CE-41EB-8C82-4AE37B83B68D}.Release|x64.Build.0 = Release|Any CPU
+		{7145D07C-83CE-41EB-8C82-4AE37B83B68D}.Release|x86.ActiveCfg = Release|Any CPU
+		{7145D07C-83CE-41EB-8C82-4AE37B83B68D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
