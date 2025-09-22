@@ -12,17 +12,5 @@ namespace EskitechApi.Services.ProductServices
         List<ProductStockDTO> GetProductWithStockExcel();
 
         int GetProductCountExcel();
-
-        Task<List<Product>> GetFullProductsDb();
-
-        Task<List<string>> GetProductNamesDb();
-
-        Task<List<ProductPriceDTO>>GetProductWithPricesDb();
-
-        Task<List<ProductStockDTO>> GetProductWithStockDb();
-
-        Task<int> GetProductCountDb();
-
-        Task<PagedResult<Product>> GetProductsPaginated(int page, int pageSize);
     }
 }
