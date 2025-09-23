@@ -10,12 +10,10 @@ namespace EskitechApi.Services.ProductServices
 {
     public class ProductService : IProductService
     {
-        private readonly IExcelService _excelService;
         private readonly EskitechDbContext _db;
 
-        public ProductService(IExcelService excelService, EskitechDbContext db)
+        public ProductService(EskitechDbContext db)
         {
-            _excelService = excelService;
             _db = db;
         }
 
